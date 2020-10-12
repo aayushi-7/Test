@@ -1,0 +1,39 @@
+def file_read(file_name):
+        with open(file_name) as f:
+                dix={}
+                pri = []
+                comp = []     
+                content_list = f.readlines()
+                input_text = content_list
+                res = [sub.strip() for sub in input_text]
+              
+                for s in res:
+                    split_input = s.split(': ')
+                    if len(split_input) ==2:
+                            key=split_input[0]
+                            dix[key]= int(split_input[1])
+                            pri.append(int(split_input[1]))
+                num = dix.pop('Number of employees')
+                num_emp = pri[0]
+                pri.pop(0)
+                pri.sort()
+                
+                for i in range(len(pri)-num_emp ):
+                    comp.append(-pri[i]+pri[i+num_emp-1])
+                list_starts=comp.index(min(comp))
+                
+                final_list = pri[list_starts: list_starts + num_emp]
+                output_file = open("output3.txt", "w")
+                output_file.write('The goodies selected for distribution are: \n\n')
+                output_file.write('Number of employees: '+ str(num_emp) +'\n\n')
+                for val in (final_list):
+                    for key, value in dix.items(): 
+                         if val == value:
+                                output_file.write(key+': '+str(value)+'\n')
+                                
+                output_file.write('\n'+'And the difference between the chosen goodie with highest price and the lowest price is '+str(min(comp)))
+                
+                f.close()
+                output_file.close()            
+
+file_read('input3.txt')
